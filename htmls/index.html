@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>앱 인벤터 프로젝트 기획서 (웹앱)</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f4f7f6;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .student-info {
+            text-align: right;
+            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        /* 입력 폼 스타일링 */
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+            box-sizing: border-box;
+            background-color: #fdfdfd;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            background-color: #fff;
+        }
+        input.inline-input {
+            width: 120px;
+            display: inline-block;
+            border: none;
+            border-bottom: 1px solid #333;
+            border-radius: 0;
+            padding: 2px 5px;
+            background-color: transparent;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        /* 테이블 및 UI 요소 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 12px 15px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f1f8ff;
+            font-weight: bold;
+            width: 25%;
+        }
+        h2 {
+            color: #2980b9;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 8px;
+            margin-top: 40px;
+            font-size: 20px;
+        }
+        .intro-quote {
+            background-color: #f8f9fa;
+            border-left: 4px solid #adb5bd;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .guide-box {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        
+        /* AI 도우미 UI */
+        .ai-assistant-box {
+            background-color: #f0f7ff;
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .ai-assistant-box h4 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .ai-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .ai-btn {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .ai-btn:hover { background-color: #1a5276; }
+        .ai-output {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid #ecf0f1;
+            display: none;
+        }
+
+        .sketch-section {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .smartphone-frame {
+            border: 12px solid #2c3e50;
+            border-radius: 30px;
+            width: 300px;
+            height: 520px;
+            background-color: white;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .smartphone-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 20px;
+            background-color: #2c3e50;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            z-index: 10;
+        }
+        .drawing-tools {
+            background-color: #ecf0f1;
+            padding: 10px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #bdc3c7;
+            flex-wrap: wrap;
+        }
+        .tool-btn {
+            background-color: white;
+            border: 1px solid #bdc3c7;
+            padding: 5px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tool-btn:hover { background-color: #e0e0e0; }
+        .tool-btn.active { background-color: #3498db; color: white; border-color: #2980b9; }
+        #ui-canvas {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+            background-color: white;
+            touch-action: none;
+        }
+        .component-list {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        /* 하단 제출 버튼 */
+        .submit-section {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px dashed #bdc3c7;
+        }
+        .btn-submit {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(39, 174, 96, 0.3);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .btn-submit:hover {
+            background-color: #219653;
+            transform: translateY(-2px);
+        }
+
+        /* 모달 UI */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📱 나만의 앱 인벤터 프로젝트 기획서</h1>
+
+    <div class="student-info">
+        학번: <input type="text" id="student-id" class="inline-input" placeholder="예: 10101"> 
+        이름: <input type="text" id="student-name" class="inline-input" placeholder="홍길동">
+    </div>
+
+    <div class="intro-quote">
+        <strong>"세상을 바꾸는 위대한 앱도, 첫 출발은 작은 종이 위에서 시작됩니다."</strong><br>
+        빈칸을 채워가며 나만의 앱을 기획하고, 마지막에 [제출하기] 버튼을 눌러 선생님께 기획서를 전송해 보세요!
+    </div>
+
+    <h2>[Section 1] 프로젝트 정의 및 공감 (Why & What)</h2>
+    
+    <div class="ai-assistant-box">
+        <h4>✨ Gemini AI 아이디어 도우미</h4>
+        <div class="ai-input-group">
+            <input type="text" id="ai-idea-input" placeholder="키워드 입력 (예: 시각장애인, 대중교통 이용, 음성 안내)">
+            <button onclick="generateIdeas()" class="ai-btn">아이디어 추천받기</button>
+        </div>
+        <div id="ai-idea-output" class="ai-output"></div>
+    </div>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>앱 이름 (가제)</th>
+                <td><input type="text" id="app-name" placeholder="멋진 앱 이름을 지어주세요!"></td>
+            </tr>
+            <tr>
+                <th>한 줄 소개</th>
+                <td>💡 이 앱은 <input type="text" id="app-target-short" class="inline-input" placeholder="누구"> 을/를 위한 <input type="text" id="app-value-short" class="inline-input" placeholder="어떤 목적의"> 앱이다.</td>
+            </tr>
+            <tr>
+                <th>타겟 사용자</th>
+                <td><textarea id="target-user" placeholder="이 앱을 가장 필요로 하는 사람은 누구인가요? 구체적으로 적어보세요."></textarea></td>
+            </tr>
+            <tr>
+                <th>문제점 (불편함)</th>
+                <td><textarea id="problem" placeholder="타겟 사용자가 겪고 있는 불편함이나 문제는 무엇인가요?"></textarea></td>
+            </tr>
+            <tr>
+                <th>해결 방안</th>
+                <td><textarea id="solution" placeholder="내 앱은 이 문제를 어떻게 해결해 줄 수 있나요?"></textarea></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>[Section 2] 핵심 기능 정의 (Features)</h2>
+    <div class="guide-box">
+        <strong>[가이드] 앱 인벤터로 이런 기능들을 구현할 수 있어요!</strong> (카메라, 음성변환(TTS), 음성인식, 흔들기 센서, TinyDB 등)
+    </div>
+    <ul style="list-style: none; padding-left: 0;">
+        <li style="margin-bottom: 10px;"><strong>핵심 기능 1 :</strong> <input type="text" id="feature-1" style="width: 80%; display: inline-block;"></li>
+        <li style="margin-bottom: 10px;"><strong>핵심 기능 2 :</strong> <input type="text" id="feature-2" style="width: 80%; display: inline-block;"></li>
+        <li style="margin-bottom: 10px;"><strong>핵심 기능 3 :</strong> <input type="text" id="feature-3" style="width: 80%; display: inline-block;"></li>
+    </ul>
+
+    <h2>[Section 3] 화면 UI 스케치 및 컴포넌트 설계 (UI/UX Layout)</h2>
+    <p style="color: #7f8c8d; font-size: 0.9em; margin-bottom: 15px;">스마트폰 화면에 직접 UI를 그려보거나, 종이에 그린 도안을 사진으로 찍어 첨부하세요!</p>
+    
+    <div class="sketch-section">
+        <!-- 스마트폰 캔버스 영역 -->
+        <div class="smartphone-frame">
+            <div class="drawing-tools">
+                <input type="color" id="pen-color" value="#2c3e50" title="펜 색상">
+                <input type="range" id="pen-size" min="1" max="15" value="3" title="펜 굵기" style="width: 60px;">
+                <button class="tool-btn active" id="btn-pen" onclick="setTool('pen')" title="펜">✏️</button>
+                <button class="tool-btn" id="btn-eraser" onclick="setTool('eraser')" title="지우개">🧽</button>
+                <button class="tool-btn" onclick="clearCanvas()" title="전체 지우기">🗑️</button>
+                <label class="tool-btn" style="cursor: pointer;" title="이미지 첨부">
+                    📷 첨부 <input type="file" id="image-upload" accept="image/*" style="display: none;" onchange="uploadImage(event)">
+                </label>
+            </div>
+            <div style="flex: 1; padding-top: 25px; background: white;">
+                <canvas id="ui-canvas" width="276" height="430"></canvas>
+            </div>
+        </div>
+
+        <!-- 컴포넌트 작성 영역 -->
+        <div class="component-list">
+            <table style="margin-top: 0;">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">사용할 컴포넌트 목록 (디자이너 화면)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>👀 보이는 컴포넌트 (Visible)</strong>
+                            <textarea id="ui-visible" placeholder="예: 버튼 3개, 레이블 2개, 이미지 1개, 수직 배치 1개 등" style="min-height: 120px;"></textarea>
+                            
+                            <strong style="display: block; margin-top: 15px;">👻 보이지 않는 컴포넌트 (Non-visible)</strong>
+                            <textarea id="ui-hidden" placeholder="예: 시계(타이머), 알림창, 음성인식, TinyDB 등" style="min-height: 120px;"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h2>[Section 4] 기능 및 알고리즘 의사코드 (Logic)</h2>
+    
+    <div class="ai-assistant-box">
+        <h4>🤖 Gemini AI 블록 로직 도우미</h4>
+        <div class="ai-input-group">
+            <input type="text" id="ai-logic-input" placeholder="기능 설명 (예: 버튼을 누르면 5초 타이머가 작동하고 끝나면 소리가 나게 해줘)">
+            <button onclick="generateLogic()" class="ai-btn">블록 논리로 변환</button>
+        </div>
+        <div id="ai-logic-output" class="ai-output"></div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 10%; text-align: center;">순번</th>
+                <th style="width: 40%; text-align: center;">[이벤트] 언제? (어떤 동작을 하면)</th>
+                <th style="width: 50%; text-align: center;">[조건 & 실행] 무엇을 할까?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="text-align: center; font-weight: bold;">1</td>
+                <td><input type="text" id="logic-event-1" placeholder="예: [로그인 버튼]을 [클릭했을 때]"></td>
+                <td><textarea id="logic-action-1" placeholder="만약 [아이디가 일치]하면 -> [스크린2 열기]&#10;아니라면 -> [알림창 띄우기]"></textarea></td>
+            </tr>
+            <tr>
+                <td style="text-align: center; font-weight: bold;">2</td>
+                <td><input type="text" id="logic-event-2" placeholder="이벤트 입력"></td>
+                <td><textarea id="logic-action-2" placeholder="실행할 내용 입력"></textarea></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="submit-section">
+        <button class="btn-submit" onclick="submitPlan()">🚀 내 기획서 제출하기 (구글 드라이브)</button>
+        <p style="color: #7f8c8d; font-size: 0.9em; margin-top: 10px;">버튼을 누르면 선생님의 드라이브 폴더로 파일이 전송됩니다. (이미지 크기에 따라 수 초 소요될 수 있음)</p>
+    </div>
+</div>
+
+<!-- 알림 모달 -->
+<div class="modal-overlay" id="alert-modal">
+    <div class="modal-content">
+        <h3 id="alert-title" style="color: #2c3e50; margin-top: 0;">알림</h3>
+        <p id="alert-message">메시지 내용</p>
+        <button class="ai-btn" onclick="closeModal('alert-modal')" style="margin-top: 15px;">확인</button>
+    </div>
+</div>
+
+<script>
+    // ==========================================
+    // 🔗 구글 앱스 스크립트 웹앱 주소 (선생님 링크 적용 완료)
+    // ==========================================
+    const GOOGLE_APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyjM-jM40GMoULLFgT2ZovRl_DIFauAhQWzg9hv7ReEzBpAGrghEzhTcvjRt_FkXE2U/exec";
+    
+    // ==========================================
+    // 🤖 Gemini API 설정 (선생님의 무료 API 키를 아래에 넣어주세요!)
+    // ==========================================
+    const GEMINI_API_KEY = "AIzaSyBhTPC_nzPo8mBEY2kTLckkr5ndOBVnEys"; 
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+
+
+    // 🎨 캔버스 스케치 기능 설정
+    const canvas = document.getElementById('ui-canvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let currentTool = 'pen';
+    let lastX = 0; let lastY = 0;
+
+    function initCanvasBackground() {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    initCanvasBackground();
+
+    window.setTool = function(tool) {
+        currentTool = tool;
+        document.getElementById('btn-pen').classList.remove('active');
+        document.getElementById('btn-eraser').classList.remove('active');
+        document.getElementById('btn-' + tool).classList.add('active');
+    }
+
+    window.clearCanvas = function() {
+        if(confirm("캔버스를 모두 지우시겠습니까?")) {
+            initCanvasBackground();
+        }
+    }
+
+    window.uploadImage = function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                initCanvasBackground();
+                const hRatio = canvas.width / img.width;
+                const vRatio = canvas.height / img.height;
+                const ratio  = Math.min(hRatio, vRatio);
+                const centerShift_x = (canvas.width - img.width * ratio) / 2;
+                const centerShift_y = (canvas.height - img.height * ratio) / 2;  
+                ctx.drawImage(img, 0, 0, img.width, img.height, centerShift_x, centerShift_y, img.width * ratio, img.height * ratio);
+            }
+            img.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+
+    function getMousePos(e) {
+        const rect = canvas.getBoundingClientRect();
+        let clientX = e.clientX;
+        let clientY = e.clientY;
+        if (e.touches && e.touches.length > 0) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        }
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        return {
+            x: (clientX - rect.left) * scaleX,
+            y: (clientY - rect.top) * scaleY
+        };
+    }
+
+    function startDrawing(e) {
+        isDrawing = true;
+        const pos = getMousePos(e);
+        lastX = pos.x; lastY = pos.y;
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        e.preventDefault(); 
+        const pos = getMousePos(e);
+        
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(pos.x, pos.y);
+        
+        if (currentTool === 'eraser') {
+            ctx.strokeStyle = '#ffffff'; 
+        } else {
+            ctx.strokeStyle = document.getElementById('pen-color').value;
+        }
+        ctx.lineWidth = document.getElementById('pen-size').value;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+        
+        lastX = pos.x; lastY = pos.y;
+    }
+
+    function stopDrawing() { isDrawing = false; }
+
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+
+    canvas.addEventListener('touchstart', startDrawing, {passive: false});
+    canvas.addEventListener('touchmove', draw, {passive: false});
+    canvas.addEventListener('touchend', stopDrawing);
+
+
+    // 🚀 구글 드라이브로 데이터 전송 (제출) 기능
+    window.submitPlan = async function() {
+        const studentId = document.getElementById('student-id').value.trim();
+        const studentName = document.getElementById('student-name').value.trim();
+        const appName = document.getElementById('app-name').value.trim();
+
+        if (!studentId || !studentName || !appName) {
+            showAlert("입력 확인", "학번, 이름, 앱 이름은 필수 입력 사항입니다!");
+            return;
+        }
+
+        const btn = document.querySelector('.btn-submit');
+        btn.innerHTML = "저장 중... 잠시만 기다려주세요⏳";
+        btn.disabled = true;
+
+        // 선생님 드라이브에 저장될 텍스트 파일의 내용 구성
+        const textContent = `[나만의 앱 인벤터 프로젝트 기획서]
+--------------------------------------------------
+학번: ${studentId}
+이름: ${studentName}
+앱 이름: ${appName}
+--------------------------------------------------
+[1. 프로젝트 정의 및 공감]
+- 한 줄 소개: 이 앱은 (${document.getElementById('app-target-short').value})을/를 위한 (${document.getElementById('app-value-short').value}) 앱이다.
+- 타겟 사용자: ${document.getElementById('target-user').value}
+- 문제점 (불편함): ${document.getElementById('problem').value}
+- 해결 방안: ${document.getElementById('solution').value}
+
+[2. 핵심 기능 정의]
+- 기능 1: ${document.getElementById('feature-1').value}
+- 기능 2: ${document.getElementById('feature-2').value}
+- 기능 3: ${document.getElementById('feature-3').value}
+
+[3. 컴포넌트 설계]
+- 보이는 컴포넌트 (Visible):
+${document.getElementById('ui-visible').value}
+- 보이지 않는 컴포넌트 (Non-visible):
+${document.getElementById('ui-hidden').value}
+
+[4. 의사코드 (Logic)]
+- 로직 1 (이벤트): ${document.getElementById('logic-event-1').value}
+- 로직 1 (동작): ${document.getElementById('logic-action-1').value}
+- 로직 2 (이벤트): ${document.getElementById('logic-event-2').value}
+- 로직 2 (동작): ${document.getElementById('logic-action-2').value}
+`;
+
+        // 캔버스 이미지를 추출
+        const sketchDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+        // 구글 앱스 스크립트로 보낼 데이터 포맷
+        const payload = {
+            studentId: studentId,
+            studentName: studentName,
+            appName: appName,
+            textData: textContent,
+            imageData: sketchDataUrl
+        };
+
+        try {
+            // text/plain 형식으로 보내야 브라우저 CORS 에러를 우회할 수 있습니다.
+            const response = await fetch(GOOGLE_APP_SCRIPT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8',
+                },
+                body: JSON.stringify(payload)
+            });
+            
+            const result = await response.json();
+            
+            if(result.status === "success") {
+                showAlert("제출 성공! 🎉", "선생님의 구글 드라이브에 기획서와 도안이 안전하게 제출되었습니다.");
+            } else {
+                showAlert("제출 오류", "저장 중 문제가 발생했습니다: " + result.message);
+            }
+        } catch (error) {
+            console.error("Save error:", error);
+            showAlert("안내", "전송 요청이 처리되었습니다. 확인창이 뜨지 않았다면 선생님께 구글 드라이브 확인을 요청해주세요.");
+        } finally {
+            btn.innerHTML = "🚀 내 기획서 제출하기 (구글 드라이브)";
+            btn.disabled = false;
+        }
+    };
+
+    // 🤖 AI 호출 함수
+    window.callGemini = async function(prompt, outputElementId) {
+        if(GEMINI_API_KEY === "여기에_선생님의_GEMINI_API_KEY를_입력하세요") {
+            showAlert("API 키 누락", "코드 내부의 GEMINI_API_KEY를 먼저 설정해주세요.");
+            return;
+        }
+
+        const outputDiv = document.getElementById(outputElementId);
+        outputDiv.style.display = 'block';
+        outputDiv.innerHTML = '<strong style="color: #2980b9;">Gemini가 열심히 생각하고 있습니다... ⏳</strong>';
+        
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
+            const result = await response.json();
+            if (result.candidates && result.candidates[0].content) {
+                let text = result.candidates[0].content.parts[0].text;
+                outputDiv.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+            } else {
+                outputDiv.innerHTML = '<span style="color: #e74c3c;">응답 생성에 실패했습니다.</span>';
+            }
+        } catch (e) {
+            outputDiv.innerHTML = '<span style="color: #e74c3c;">네트워크 오류가 발생했습니다.</span>';
+        }
+    }
+
+    window.generateIdeas = function() {
+        const input = document.getElementById('ai-idea-input').value.trim();
+        if(!input) return showAlert("입력 필요", "타겟 사용자나 키워드를 먼저 입력해주세요!");
+        callGemini(`고등학생 앱 인벤터 프로젝트용. 키워드: "${input}". 기본 기능으로 구현 가능한 실용적 앱 아이디어 2가지 추천 (이름, 핵심기능 1줄 요약)`, 'ai-idea-output');
+    }
+
+    window.generateLogic = function() {
+        const input = document.getElementById('ai-logic-input').value.trim();
+        if(!input) return showAlert("입력 필요", "구현하고 싶은 기능을 설명해주세요!");
+        callGemini(`앱 인벤터 블록 코딩 논리(의사코드)로 변환. 학생 설명: "${input}". 형식: [이벤트]~했을 때 / [조건]만약~라면 / [실행]~한다.`, 'ai-logic-output');
+    }
+
+    // 모달 제어 함수
+    window.showAlert = function(title, message) {
+        document.getElementById('alert-title').innerText = title;
+        document.getElementById('alert-message').innerText = message;
+        document.getElementById('alert-modal').style.display = 'flex';
+    }
+    window.closeModal = function(id) { document.getElementById(id).style.display = 'none'; }
+</script>
+</body>
+</html>
